@@ -5,7 +5,7 @@ TensorFlow implementation of **state-of-the-art recommendation models** for Clic
 ## Features
 
 - **7 SOTA Models**: AutoInt, DCN-v2, RankMixer, Wukong, AutoFIS, AFN, Ours:SSRNet
-- **Multi-Dataset Support**: Avazu, Criteo, Ali-CCP
+- **Multi-Dataset Support**: Avazu, Criteo, Alibaba
 - **Optimized Performance**: Efficient tf.data pipelines and batch processing
 - **Production Ready**: Checkpointing, early stopping, comprehensive metrics
 
@@ -97,7 +97,7 @@ python -c "import tensorflow as tf; print('TF version:', tf.__version__)"
 MiniRec/
 ├── models/                     # Model implementations
 │   ├── ssrnet/                # SSRNet module components
-│   │   ├── block_t*.py        # Various SSRNet block implementations (t3-t21)
+│   │   ├── block_t*.py        # Various SSRNet block implementations (t18/t18a/t21)
 │   │   └── monitoring_callback.py  # Training monitoring
 │   ├── model_autoint.py       # AutoInt
 │   ├── model_dcn_v2.py        # DCN-v2
@@ -124,7 +124,6 @@ MiniRec/
 │   ├── avazu_optimized.py     # Avazu processor
 │   ├── criteo_optimized.py    # Criteo processor
 │   ├── aliccp_optimized.py    # Ali-CCP processor
-│   ├── aliccp_optimized_ori.py # Ali-CCP original processor
 │   ├── kdd2012_optimized.py   # KDD2012 processor
 │   ├── kfold_split.py         # K-fold splitting
 │   ├── base.py                # Base data processor
@@ -207,9 +206,9 @@ create_stratified_splits(config)
 # Note: Avazu dataset contains all categorical features, no scaling needed
 ```
 
-#### **Ali-CCP Dataset**:
+#### **Alibaba Dataset**:
 ```bash
-# Download Ali-CCP dataset from Tianchi
+# Download Alibaba dataset from Tianchi
 # Dataset URL: https://tianchi.aliyun.com/datalab/dataSet.html?dataId=408
 # Place the data files as:
 #   - ./data/Aliccp/sample_skeleton_train.csv (training skeleton file)
@@ -227,7 +226,7 @@ feature_size = preprocess_aliccp_dataset(
     use_log_scaling=True,
     verbose=1
 )
-print(f'Ali-CCP processing completed with {feature_size:,} total features')
+print(f'Alibaba processing completed with {feature_size:,} total features')
 "
 
 # Step 2: Create k-fold splits

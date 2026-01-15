@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# ============= 配置部分（请根据需求修改） =============
+# ============= Configuration Section (Modify as needed) =============
 
-# 1. nohup 会话名称（可选，用于标识任务）
+# 1. nohup session name (optional, used to identify the task)
 SESSION_NAME="avazu_ssrnet_t"
-# 2. 训练命令
+# 2. Training command
 CMD="
 python runners/train_ssrnet_t.py \
     --data avazu \
@@ -35,35 +35,35 @@ python runners/train_ssrnet_t.py \
 "
 
 
-# 3. 日志文件保存路径（可自定义）
+# 3. Log file save path (customizable)
 LOG_PATH="./logs/$(date +\%Y\%m\%d_\%H\%M\%S)_${SESSION_NAME}.log"
 
 
 
-# 4. 是否启用日志轮转（可选，默认关闭）
+# 4. Enable log rotation (optional, disabled by default)
 ENABLE_LOG_ROTATE=false
-# ============= 配置部分结束 ========================
+# ============= End of Configuration Section ========================
 
 
-# 创建日志目录（如果不存在）
+# Create log directory (if it doesn't exist)
 mkdir -p "$(dirname "$LOG_PATH")"
 
-# 记录执行命令到日志文件
+# Record execution command to log file
 echo "========================================" >> "$LOG_PATH"
-echo "执行时间: $(date '+%Y-%m-%d %H:%M:%S')" >> "$LOG_PATH"
-echo "会话名称: $SESSION_NAME" >> "$LOG_PATH"
-echo "执行命令:" >> "$LOG_PATH"
+echo "Execution time: $(date '+%Y-%m-%d %H:%M:%S')" >> "$LOG_PATH"
+echo "Session name: $SESSION_NAME" >> "$LOG_PATH"
+echo "Execution command:" >> "$LOG_PATH"
 printf "%s\n" "$CMD" >> "$LOG_PATH"
 echo "========================================" >> "$LOG_PATH"
 echo "" >> "$LOG_PATH"
 
-# 启动命令（后台运行 + 日志重定向）
+# Start command (background execution + log redirection)
 nohup $CMD >> "$LOG_PATH" 2>&1 &
 
-# 解除与当前终端的关联（确保关闭终端后进程仍在运行）
+# Disown from current terminal (ensure process continues after terminal closes)
 disown
 
-# 可选：日志轮转（每天0点切割日志）
+# Optional: Log rotation (rotate logs at midnight daily)
 if [ "$ENABLE_LOG_ROTATE" = true ]; then
     echo "Setting up log rotation..."
     LOG_DIR=$(dirname "$LOG_PATH")
@@ -71,4 +71,4 @@ if [ "$ENABLE_LOG_ROTATE" = true ]; then
     (crontab -l 2>/dev/null; echo "0 0 * * * find $LOG_DIR -name \"${LOG_BASE}_*.log\" -mtime +7 -exec rm {} \;" ) | crontab -
 fi
 
-echo "任务 [${SESSION_NAME}] 已启动，日志保存至: $LOG_PATH"
+echo "Task [${SESSION_NAME}] has been started, log saved to: $LOG_PATH"
