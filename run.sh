@@ -15,13 +15,13 @@ python runners/train_ssrnet_t.py \
     --hidden_unit_list 128 128 \
     --top_k_list 128 128 \
     --out_unit_list 128 128 \
-    --iterations 3 \
-    --alpha_init 0.3 0.3 \
+    --iterations 5 \
+    --alpha_init 1.0 1.0 \
     --scale_init 1.0 1.0 \
     --use_ssr_linear False \
     --use_gate True \
     --use_block_dense True \
-    --use_block_mean_pooling True \
+    --use_block_mean_pooling False \
     --dropout_rates 0.0 0.0 0.0 \
     --l2_reg 0.0 \
     --batch_size 1024 \
