@@ -360,7 +360,7 @@ python runners/train_ssrnet_t.py \
 | **Ali-CCP** | 24 features | Requires log scaling |
 
 **Datasets**:
-- [Avazu](https://www.kaggle.com/c/avazu-ctr-prediction), [Criteo](https://www.kaggle.com/c/criteo-display-ad-challenge), [Aliccp](https://tianchi.aliyun.com/dataset/408
+- [Avazu](https://www.kaggle.com/c/avazu-ctr-prediction), [Criteo](https://www.kaggle.com/c/criteo-display-ad-challenge), [Alibaba](https://tianchi.aliyun.com/dataset/408
 )
 
 
