@@ -177,7 +177,7 @@ python -c "
 from dataprocess.base import DataScaler
 from dataprocess.config import CriteoConfig
 config = CriteoConfig(data_path='./data/Criteo/')
-numerical_columns = list(range(13))  # Criteo前13列为数值特征
+numerical_columns = list(range(13))  
 DataScaler.scale_data_parts(config, numerical_columns, scale_method='log')
 "
 

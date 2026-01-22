@@ -20,7 +20,7 @@ mkdir -p "$(dirname "$LOG_PATH")"
 echo "========================================" >> "$LOG_PATH"
 echo "Execution time: $(date '+%Y-%m-%d %H:%M:%S')" >> "$LOG_PATH"
 echo "Session name: $SESSION_NAME" >> "$LOG_PATH"
-echo "执行命令: Python data processing pipeline" >> "$LOG_PATH"
+echo "Python data processing pipeline" >> "$LOG_PATH"
 echo "========================================" >> "$LOG_PATH"
 echo "" >> "$LOG_PATH"
 
@@ -31,7 +31,7 @@ nohup python -u <<'EOF' >> "$LOG_PATH" 2>&1 &
 
 from dataprocess.criteo_optimized import preprocess_criteo_dataset
 feature_size = preprocess_criteo_dataset(
-    source_path='/data/oss_bucket_0/ssrnet/pub_data/criteo/criteo.data',
+    source_path='./data/criteo.data',
     output_path='./data/Criteo/',
     verbose=1
 )
@@ -51,7 +51,7 @@ DataScaler.scale_data_parts(config, numerical_columns, scale_method='log')
 
 # from dataprocess.aliccp_optimized import preprocess_aliccp_dataset
 # feature_size = preprocess_aliccp_dataset(
-#     source_path='/data/oss_bucket_0/ssrnet/pub_data/ali-ccp/',
+#     source_path='./data/ali-ccp/',
 #     output_path='./data/Aliccp/',
 #     process_test=False,
 #     use_log_scaling=True,

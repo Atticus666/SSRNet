@@ -57,7 +57,7 @@ class WukongExperiment:
             )
         elif self.args.data.lower() == 'criteo_disc':
             return CriteoDiscConfig(
-                data_path='/data/oss_bucket_0/ssrnet/data/Criteo_disc',
+                data_path='./data/Criteo_disc',
                 verbose=self.args.verbose
             )
         elif self.args.data.lower() == 'avazu':

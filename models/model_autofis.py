@@ -36,8 +36,8 @@ class AutoFISLayer(layers.Layer):
                  use_bn: bool = True,
                  dropout_rate: float = 0.0,
                  l2_reg: float = 0.0,
-                 trainable_mask: bool = True,  # 新增：控制 mask 是否可训练
-                 fixed_mask: Optional[np.ndarray] = None,  # 新增：固定的 mask 值
+                 trainable_mask: bool = True,  
+                 fixed_mask: Optional[np.ndarray] = None,  
                  **kwargs):
         super(AutoFISLayer, self).__init__(**kwargs)
         
@@ -117,7 +117,7 @@ class AutoFISLayer(layers.Layer):
                 name='interaction_mask',
                 shape=(1, self.num_pairs),
                 initializer=keras.initializers.Constant(self.fixed_mask.reshape(1, -1)),
-                trainable=False  # 不可训练
+                trainable=False  
             )
         else:
             self.interaction_mask = self.add_weight(
