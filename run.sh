@@ -19,7 +19,6 @@ python runners/train_ssrnet_t.py \
     --alpha_init 1.0 1.0 \
     --scale_init 1.0 1.0 \
     --use_ssr_linear False \
-    --use_gate True \
     --use_block_dense True \
     --use_block_mean_pooling False \
     --dropout_rates 0.0 0.0 0.0 \

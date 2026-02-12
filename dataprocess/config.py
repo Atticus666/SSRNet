@@ -50,16 +50,15 @@ class DataConfig:
         return os.path.join(part_dir, filename)
 
 
-    # 缩放相关配置
-    force_regenerate: bool = False  # 强制重新生成缩放数据
-    save_text_format: bool = False  # 是否保存文本格式
-    default_scale_method: str = 'log'  # 默认缩放方法
+    # Scaling related configuration
+    force_regenerate: bool = False  # Force regenerate scaled data
+    save_text_format: bool = False  # Whether to save text format
+    default_scale_method: str = 'log'  
     
-    # 数值特征列配置
+    
     numerical_columns: Optional[list[int]] = None
     
     def get_scaling_config(self) -> Dict[str, Any]:
-        """获取缩放配置"""
         return {
             'method': self.default_scale_method,
             'numerical_columns': self.numerical_columns,
@@ -77,10 +76,10 @@ class CriteoConfig(DataConfig):
         self.num_numerical_features = 13
         self.num_categorical_features = 26
         self.min_category_count = 5  # Minimum count for category to get unique index
-        self.numerical_columns = list(range(13))  # Criteo前13列为数值特征
-        self.default_scale_method = 'log'  # Criteo使用对数缩放
-        self.num_buckets_per_feature = kwargs.get('num_buckets_per_feature', 100)  # 每个数值特征的分桶数
-        self.use_numerical_discretization = kwargs.get('use_numerical_discretization', False)  # 是否启用数值离散化
+        self.numerical_columns = list(range(13))  
+        self.default_scale_method = 'log'  
+        self.num_buckets_per_feature = kwargs.get('num_buckets_per_feature', 100)  
+        self.use_numerical_discretization = kwargs.get('use_numerical_discretization', False)  
         
 
 class AvazuConfig(DataConfig):
@@ -93,7 +92,7 @@ class AvazuConfig(DataConfig):
         self.label_index = 1
         self.total_columns = 24
         self.min_category_counts = [5] * 24  # Minimum counts per feature
-        self.numerical_columns = []  # Avazu全部为分类特征
+        self.numerical_columns = []  
         self.default_scale_method = None
         
 
@@ -104,7 +103,7 @@ class KDD2012Config(DataConfig):
         super().__init__(**kwargs)
         self.source_file = kwargs.get('source_file', './data/KDD2012/training.txt')
         self.field_size = 11  # Adjust based on actual KDD2012 structure
-        self.numerical_columns = list(range(3))  # 根据KDD2012实际情况调整
+        self.numerical_columns = list(range(3))  
         self.default_scale_method = 'standard'
 
 
@@ -113,15 +112,15 @@ class CriteoDiscConfig(DataConfig):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.source_file = kwargs.get('source_file', '/data/oss_bucket_0/ssrnet/data/Criteo_disc/train_examples.txt')
+        self.source_file = kwargs.get('source_file', './data/train_examples.txt')
         self.field_size = 39
         self.num_numerical_features = 13
         self.num_categorical_features = 26
         self.min_category_count = 5  # Minimum count for category to get unique index
-        self.numerical_columns = list(range(13))  # Criteo前13列为数值特征
-        self.default_scale_method = 'log'  # Criteo使用对数缩放
-        self.num_buckets_per_feature = kwargs.get('num_buckets_per_feature', 100)  # 每个数值特征的分桶数
-        # 离散化数据集默认启用数值离散化
+        self.numerical_columns = list(range(13))  
+        self.default_scale_method = 'log'  
+        self.num_buckets_per_feature = kwargs.get('num_buckets_per_feature', 100)  
+        
         self.use_numerical_discretization = kwargs.get('use_numerical_discretization', True)
 
 

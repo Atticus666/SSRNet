@@ -177,7 +177,7 @@ python -c "
 from dataprocess.base import DataScaler
 from dataprocess.config import CriteoConfig
 config = CriteoConfig(data_path='./data/Criteo/')
-numerical_columns = list(range(13))  # Criteo前13列为数值特征
+numerical_columns = list(range(13))  
 DataScaler.scale_data_parts(config, numerical_columns, scale_method='log')
 "
 
@@ -333,10 +333,9 @@ python runners/train_ssrnet_t.py \
     --top_k_list 128 128 \
     --out_unit_list 128 128 \
     --iterations 5 \
-    --alpha_init 1.0 1.0 \
+    --alpha_init 0.1 0.1 \
     --scale_init 1.0 1.0 \
     --use_ssr_linear False \
-    --use_gate True \
     --use_block_dense True \
     --use_block_mean_pooling False \
     --dropout_rates 0.0 0.0 0.0 \

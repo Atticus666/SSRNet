@@ -102,10 +102,10 @@ class StratifiedDataSplitter:
         for train_idx, valid_idx in skf.split(features, labels):
             fold_indices.append(valid_idx)
         
-        # 保存fold索引为list
+        
         self.fold_indices = fold_indices
         
-        # Save fold indices - 使用pickle处理不规则数组列表
+        
         fold_index_path = os.path.join(self.config.data_path, self.config.fold_index_file.replace('.npy', '.pkl'))
         with open(fold_index_path, 'wb') as f:
             pickle.dump(self.fold_indices, f)

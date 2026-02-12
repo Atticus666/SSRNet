@@ -71,7 +71,7 @@ class MLPMixerLayer(layers.Layer):
         self.hidden_dim = hidden_dim
     
     def build(self, input_shape):
-        # 为每个 token 创建独立的两层 MLP
+        
         self.mlp_layers = []
         for i in range(self.num_tokens):
             token_mlp = [
@@ -293,7 +293,7 @@ class RankMixer(keras.Model):
             wide_output = tf.reduce_sum(wide_logits * feat_value, axis=1)  # [batch_size, 1]
         
         # Split into tokens and map to hidden_dim
-        # 简化：直接 split 然后通过各自的 mapper
+        
         token_size = (self.field_size * self.embedding_size) // self.num_tokens
         split_embeddings = tf.split(embeddings_flat, num_or_size_splits=self.num_tokens, axis=1)
         
