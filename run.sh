@@ -3,19 +3,19 @@
 # ============= Configuration Section (Modify as needed) =============
 
 # 1. nohup session name (optional, used to identify the task)
-SESSION_NAME="avazu_ssrnet_t"
+SESSION_NAME="criteo_ssrnet_t_i3_a1_s1"
 # 2. Training command
 CMD="
 python runners/train_ssrnet_t.py \
-    --data avazu \
-    --data_path ./data/ \
+    --data criteo \
+    --data_path /data/oss_bucket_0/ssrnet/data/ \
     --block_version t21 \
     --embedding_size 16 \
     --tokennum_list 8 8 \
     --hidden_unit_list 128 128 \
     --top_k_list 128 128 \
     --out_unit_list 128 128 \
-    --iterations 5 \
+    --iterations 3 \
     --alpha_init 1.0 1.0 \
     --scale_init 1.0 1.0 \
     --use_ssr_linear False \
