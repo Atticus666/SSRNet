@@ -132,9 +132,6 @@ SSR achieves consistent improvements across all benchmarks. On Avazu, SSR-S cuts
 
 SSR exhibits superior scaling properties compared to dense baselines. While Dense MLP saturates early and RankMixer shows flattening growth, SSR maintains a steep upward trajectory from 5M to 900M parameters — the performance gap widens as models scale up.
 
-<p align="center">
-  <img src="assets/scaling.png" width="420" />
-</p>
 
 ## Online A/B Testing
 
