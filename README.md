@@ -1,373 +1,160 @@
-# MiniRec: Multi-Model CTR Prediction Framework
+<div align="center">
+<h2 align="center">
+  <b>
+    <span>━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+    <br/>
+    SSR: Explicit Sparsity for Scalable Recommendation
+    <br/>
+    <span>━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
+    <br/>
+  </b>
+</h2>
+</div>
 
-TensorFlow implementation of **state-of-the-art recommendation models** for Click-Through Rate (CTR) prediction with unified training pipeline.
+<p align="center">
+  <a href="../ssr_final.pdf">Paper</a> &nbsp;|&nbsp;
+  <a href="#overview">Overview</a> &nbsp;|&nbsp;
+  <a href="#results">Results</a> &nbsp;|&nbsp;
+  <a href="#online-ab-testing">Online A/B</a> &nbsp;|&nbsp;
+  <a href="#citation">Citation</a>
+</p>
 
-## Features
-
-- **7 SOTA Models**: AutoInt, DCN-v2, RankMixer, Wukong, AutoFIS, AFN, Ours:SSRNet
-- **Multi-Dataset Support**: Avazu, Criteo, Alibaba
-- **Optimized Performance**: Efficient tf.data pipelines and batch processing
-- **Production Ready**: Checkpointing, early stopping, comprehensive metrics
-
-## Supported Models
-
-### 1. **AutoInt** - Automatic Feature Interaction Learning via Self-Attentive Neural Networks
-> CIKM 2019 | [Paper](https://arxiv.org/abs/1810.11921)
-
-Multi-head self-attention for automatic feature interaction learning with residual connections.
-
-### 2. **DCN-v2** - Improved Deep & Cross Network and Practical Lessons for Web-scale Learning to Rank Systems
-> WWW 2021 | [Paper](https://arxiv.org/abs/2008.13535)
-
-Low-rank mixture of expert cross layers for explicit feature crossing.
-
-### 3. **RankMixer** - Scaling Up Ranking Models in Industrial Recommenders
-> 2025 | [Paper](https://arxiv.org/abs/2507.15551)
-
-Advanced features mixer method for scaling Up ranking models.
-
-### 4. **Wukong** - Towards a Scaling Law for Large-Scale Recommendation
-> 2024 | [Paper](https://arxiv.org/pdf/2403.02545)
-
-Factorization Machine Block (FMB) with synergistic upscaling strategy.
-
-### 5. **AutoFIS** - Automatic Feature Interaction Selection
-> KDD 2020 | [Paper](https://arxiv.org/abs/2003.11235)
-
-Automatic feature interaction selection via two-stage architecture search.
-
-### 6. **AFN** - Learning Adaptive-Order Feature Interactions
-> AAAI 2020 | [Paper](https://arxiv.org/abs/1909.03276)
-
-Logarithmic transformation network for adaptive feature interaction learning.
-
-### 7. **SSRNet** - Explicit Sparsity for Scalable Recommendation
-Ours: Explicit Sparsity for efficient scalable recommendation.
-
-
-## Requirements
-
-```bash
-Python >= 3.10
-TensorFlow == 2.11.*
-scikit-learn >= 1.7.2
-pandas >= 2.3.3
-numpy >= 1.26.4
-```
-
-## Simple Environment
-
-The project uses conda for dependency management. Install using the provided environment file:
-
-```bash
-# Create conda environment
-conda env create -f environment_gpu.yml
-
-# Activate environment  
-conda activate tf211gpu
-
-# Verify installation
-python -c "import tensorflow as tf; print('TF version:', tf.__version__)"
-```
-
-## Manually Installation
-
-If Simple Environment can not work, you can manually install the dependencies:
-
-1. **Clone the repository**:
-```bash
-git clone <repository-url>
-cd MiniRec
-```
-
-2. **Install dependencies**:
-```bash
-pip install tensorflow==2.11.* scikit-learn pandas numpy
-```
-
-3. **Verify installation**:
-```bash
-python -c "import tensorflow as tf; print('TF version:', tf.__version__)"
-```
-
-
-## Project Structure
-
-```
-MiniRec/
-├── models/                     # Model implementations
-│   ├── ssrnet/                # SSRNet module components
-│   │   ├── block_t*.py        # Various SSRNet block implementations (t18/t18a/t21)
-│   │   └── monitoring_callback.py  # Training monitoring
-│   ├── model_autoint.py       # AutoInt
-│   ├── model_dcn_v2.py        # DCN-v2
-│   ├── model_rankmixer.py     # RankMixer
-│   ├── model_ssrnet.py        # SSRNet
-│   ├── model_ssrnet_t.py      # SSRNet Transformer
-│   ├── model_wukong.py        # Wukong
-│   ├── model_autofis.py       # AutoFIS
-│   ├── model_afn.py           # AFN
-│   ├── model_deepfm.py        # DeepFM
-│   └── model_ffn.py           # FFN
-├── runners/                    # Training scripts
-│   ├── train_autoint.py       # AutoInt training
-│   ├── train_dcn_v2.py        # DCN-v2 training
-│   ├── train_rankmixer.py     # RankMixer training
-│   ├── train_ssrnet.py        # SSRNet training
-│   ├── train_ssrnet_t.py      # SSRNet Transformer training
-│   ├── train_wukong.py        # Wukong training
-│   ├── train_autofis.py       # AutoFIS training
-│   ├── train_afn.py           # AFN training
-│   ├── train_deepfm.py        # DeepFM training
-│   └── train_ffn.py           # FFN training
-├── dataprocess/               # Data processing
-│   ├── avazu_optimized.py     # Avazu processor
-│   ├── criteo_optimized.py    # Criteo processor
-│   ├── aliccp_optimized.py    # Ali-CCP processor
-│   ├── kdd2012_optimized.py   # KDD2012 processor
-│   ├── kfold_split.py         # K-fold splitting
-│   ├── base.py                # Base data processor
-│   └── config.py              # Data processing config
-├── utils/                     # Utility functions
-│   ├── callbacks.py           # Training callbacks
-│   ├── data_loader.py         # Data loading utilities
-│   ├── metrics.py             # Metrics calculation
-│   └── profiler.py            # Model profiling
-├── data/                      # Dataset storage
-│   ├── Avazu/                 # Avazu dataset
-│   └── Criteo/                # Criteo dataset
-├── checkpoint/                # Model checkpoints
-├── run.sh                     # Training execution script
-├── run_data.sh                # Data processing script
-├── environment.yml            # Conda environment (CPU)
-├── environment_gpu.yaml       # Conda environment (GPU)
-└── README.md                  # Project documentation
-```
-
-## Quick Start
-
-### 1. **Data Preparation**
-
-#### **Criteo Dataset**:
-```bash
-# Download and extract Criteo dataset (TSV format)
-# Place the data file as: ./data/Criteo/train.txt
-
-# Step 1: Run preprocessing with optimized processor
-python -c "
-from dataprocess.criteo_optimized import preprocess_criteo_dataset
-feature_size = preprocess_criteo_dataset(
-    source_path='./data/Criteo/train.txt',
-    output_path='./data/Criteo/',
-    verbose=1
-)
-print(f'Criteo processing completed with {feature_size:,} total features')
-"
-
-# Step 2: Create k-fold splits
-python -c "
-from dataprocess.kfold_split import create_stratified_splits
-from dataprocess.config import CriteoConfig
-config = CriteoConfig(data_path='./data/Criteo/')
-create_stratified_splits(config)
-"
-
-# Step 3: Scale numerical features using log scaling
-python -c "
-from dataprocess.base import DataScaler
-from dataprocess.config import CriteoConfig
-config = CriteoConfig(data_path='./data/Criteo/')
-numerical_columns = list(range(13))  
-DataScaler.scale_data_parts(config, numerical_columns, scale_method='log')
-"
-
-```
-
-#### **Avazu Dataset**:
-```bash
-# Download Avazu dataset from Kaggle
-# Place the data file as: ./data/Avazu/train.csv
-
-python -c "
-from dataprocess.avazu_optimized import preprocess_avazu_dataset
-preprocess_avazu_dataset(
-    './data/Avazu/train.csv',
-    './data/Avazu/'
-)
-"
-
-# Step 2: Create k-fold splits  
-python -c "
-from dataprocess.kfold_split import create_stratified_splits
-from dataprocess.config import AvazuConfig
-config = AvazuConfig(data_path='./data/Avazu/')
-create_stratified_splits(config)
-"
-# Note: Avazu dataset contains all categorical features, no scaling needed
-```
-
-#### **Alibaba Dataset**:
-```bash
-# Download Alibaba dataset from Tianchi
-# Dataset URL: https://tianchi.aliyun.com/datalab/dataSet.html?dataId=408
-# Place the data files as:
-#   - ./data/Aliccp/sample_skeleton_train.csv (training skeleton file)
-#   - ./data/Aliccp/common_features_train.csv (training common features)
-#   - ./data/Aliccp/sample_skeleton_test.csv (test skeleton file)
-#   - ./data/Aliccp/common_features_test.csv (test common features)
-
-# Step 1: Run preprocessing with optimized processor
-python -c "
-from dataprocess.aliccp_optimized import preprocess_aliccp_dataset
-feature_size = preprocess_aliccp_dataset(
-    source_path='./data/Aliccp/',
-    output_path='./data/Aliccp/',
-    process_test=False,
-    use_log_scaling=True,
-    verbose=1
-)
-print(f'Alibaba processing completed with {feature_size:,} total features')
-"
-
-# Step 2: Create k-fold splits
-python -c "
-from dataprocess.kfold_split import create_stratified_splits
-from dataprocess.config import AliccpConfig
-config = AliccpConfig(data_path='./data/Aliccp/')
-create_stratified_splits(config)
-"
-
-```
-
-#### **Expected Data Structure After Processing**:
-```bash
-# Expected data structure
-data/
-├── Avazu/
-│   ├── train_i.txt         # Feature indices (text format)
-│   ├── train_x.txt         # Feature values (text format)
-│   ├── train_y.txt         # Labels (text format)
-│   ├── feature_size.npy    # Total feature size (IMPORTANT!)
-│   ├── fold_index.pkl      # K-fold indices (pickle format)
-│   ├── fold_index.npy      # K-fold indices (numpy format)
-│   ├── part1/              # Fold 1 data (test set)
-│   │   ├── train_i.npy     # Feature indices
-│   │   ├── train_x.npy     # Feature values
-│   │   └── train_y.npy     # Labels
-│   ├── part2/              # Fold 2 data (validation set)
-│   └── part3-10/           # Folds 3-10 (training sets)
-├── Criteo/
-│   ├── train_i.txt         # Feature indices (text format)
-│   ├── train_x.txt         # Feature values (text format)
-│   ├── train_y.txt         # Labels (text format)
-│   ├── train_examples.txt  # Training examples metadata
-│   ├── feature_size.npy    # Total feature size (IMPORTANT!)
-│   ├── fold_index.pkl      # K-fold indices (pickle format)
-│   ├── fold_index.npy      # K-fold indices (numpy format)
-│   ├── part1/              # Fold 1 data (test set)
-│   │   ├── train_i.npy     # Feature indices
-│   │   ├── train_x.npy     # Feature values
-│   │   ├── train_x2.npy    # Scaled feature values
-│   │   └── train_y.npy     # Labels
-│   ├── part2/              # Fold 2 data (validation set)
-│   └── part3-10/           # Folds 3-10 (training sets)
-├── Aliccp/                 # Ali-CCP dataset
-│   ├── train_i.txt         # Feature indices (text format)
-│   ├── train_x.txt         # Feature values (text format)
-│   ├── train_y.txt         # Combined labels (text format)
-│   ├── train_y_click.txt   # Click labels
-│   ├── train_y_purchase.txt # Purchase labels
-│   ├── ctrcvr_enum.pkl     # CTR/CVR enumeration
-│   ├── feature_size.npy    # Total feature size
-│   ├── fold_index.pkl      # K-fold indices
-│   ├── part1/              # Fold 1 data (test set)
-│   │   ├── train_i.npy
-│   │   ├── train_x.npy
-│   │   └── train_y.npy
-│   ├── part2/              # Fold 2 data (validation set)
-│   └── part3-10/           # Folds 3-10 (training sets)
-
-
-# Note: 
-# - feature_size.npy is REQUIRED for model training (stores total feature dimensions)
-# - fold_index.pkl stores the indices for each fold (saved as pickle, not npy)
-# - train_x2.npy contains scaled feature values (recommended for Criteo dataset)
-```
-
-### 2. **Training Models**
-
-```bash
-# Using run.sh (recommended) 
-# Please specify the model trainer params before running. 
-bash run.sh
-
-# SSRNet Random 
-"""
-python runners/train_ssrnet.py \
-    --data avazu \
-    --data_path ./data/ \
-    --embedding_size 16 \
-    --b_matrices 16 16 \
-    --d_mid_cols 128 64 \
-    --out_units 128 128 \
-    --num_hidden_layers 1 \
-    --batch_size 1024 \
-    --epoch 3 \
-    --learning_rate 0.001 \
-    --optimizer_type adam \
-    --run_times 1 \
-    --save_path ./checkpoint/avazu_ssrnet_experiment/ \
-    --is_save true \
-    --verbose 1
-"""
-
-# SSRNet Trainable 
-"""
-python runners/train_ssrnet_t.py \
-    --data avazu \
-    --data_path ./data/ \
-    --block_version t21 \
-    --embedding_size 16 \
-    --tokennum_list 8 8 \
-    --hidden_unit_list 128 128 \
-    --top_k_list 128 128 \
-    --out_unit_list 128 128 \
-    --iterations 5 \
-    --alpha_init 0.1 0.1 \
-    --scale_init 1.0 1.0 \
-    --use_ssr_linear False \
-    --use_block_dense True \
-    --use_block_mean_pooling False \
-    --dropout_rates 0.0 0.0 0.0 \
-    --l2_reg 0.0 \
-    --batch_size 1024 \
-    --epoch 3 \
-    --optimizer_type adam \
-    --learning_rate 0.001 \
-    --num_runs 1 \
-    --save_path ./checkpoint/avazu_ssrnet_t_experiment/ \
-    --is_save 0 \
-    --verbose 1
-"""
-```
-
-## Supported Datasets
-
-| Dataset | Features | Notes |
-|---------|----------|--------|
-| **Avazu** | 23 categorical | No scaling needed |
-| **Criteo** | 13 numerical + 26 categorical | Requires log scaling |
-| **Ali-CCP** | 24 features | Requires log scaling |
-
-**Datasets**:
-- [Avazu](https://www.kaggle.com/c/avazu-ctr-prediction), [Criteo](https://www.kaggle.com/c/criteo-display-ad-challenge), [Alibaba](https://tianchi.aliyun.com/dataset/408
-)
-
-
-## Monitoring & Logging
-Training logs: `./logs/{datetime}_{dataset}_{model}.log`  
-Model checkpoints: `./checkpoint/{experiment_name}/`
-
+<p align="center">
+  <img src="assets/framework.png" width="800" />
+</p>
+<p align="center"><em>
+  The SSR Framework: (1) Multi-view Sparse Filtering decomposes input into parallel views for dimension-level signal filtering, (2) Intra-view Dense Fusion applies nonlinear transformation within refined subspaces. Two filtering strategies are provided: Static Random Filter (SSR-S) and Iterative Competitive Sparse (SSR-D).
+</em></p>
 
 ---
 
+This is the official repository for **SSR (Explicit Sparsity for Scalable Recommendation)**, a backbone framework that shifts from implicit weight suppression to explicit signal filtering for scaling recommendation models on sparse data. SSR introduces a "filter-then-fuse" paradigm: decomposing inputs into parallel views for dimension-level sparse filtering, followed by dense fusion — ensuring expanded capacity is dedicated to valid signals rather than noise.
+
+## Overview
+
+Standard dense backbones (e.g., deep MLPs) suffer from a structural mismatch with sparse recommendation data: over 92% of learned connection weights are suppressed to near-zero, while 80% of weight power concentrates in just the top 4% of dimensions. Simply scaling dense architectures yields diminishing returns or performance degradation.
+
+**SSR** replaces indiscriminate dense connectivity with explicit sparsity through a two-stage process per view:
+
+$$\mathbf{h}_i = \mathcal{F}_i(\mathbf{x}), \quad \mathbf{z}_i = \sigma(\mathbf{h}_i \mathbf{V}_i + \text{bias}_i)$$
+
+$$\mathbf{y} = \text{Concat}(\text{LayerNorm}(\mathbf{z}_1), \ldots, \text{LayerNorm}(\mathbf{z}_b))$$
+
+where $\mathcal{F}_i$ is a sparse filter operator (static or dynamic) and $\mathbf{V}_i$ is a view-specific dense projection. This reduces parameter complexity from $O((b \cdot d_v)^2)$ to $O(b \cdot d_v^2)$ — a factor of $1/b$ reduction.
+
+### SSR-S: Static Random Filter
+
+Each view selects a fixed random subset of input dimensions via a binary selection matrix (zero-FLOP parallel gather). This enforces hard structural sparsity with a "Feature Bagging" effect across views.
+
+### SSR-D: Iterative Competitive Sparse (ICS)
+
+A differentiable, bio-inspired dynamic mechanism where features compete for survival through iterative mean-field global inhibition:
+
+$$\mathbf{x}^{(t+1)} = \text{ReLU}\left(\mathbf{x}^{(t)} - \alpha_t \cdot \mu^{(t)}\right)$$
+
+Over $T$ iterations, noise dimensions are progressively driven to true zero while high-response signals are retained — achieving $O(T \cdot N)$ linear complexity without sorting.
+
+<details>
+<summary><b>PyTorch-style pseudocode (ICS)</b></summary>
+
+```python
+def ics_forward(z: Tensor, alpha: list[float], gamma: Tensor, T: int) -> Tensor:
+    """
+    Iterative Competitive Sparse (ICS) Forward Pass.
+    z:     [B, d_v]  projected feature vector
+    alpha: T learnable extinction rates
+    gamma: [d_v]     learnable signal recovery scale
+    T:     number of competition iterations
+    """
+    x = F.relu(z)                          # Initialize: non-negative rectification
+    for t in range(T):
+        mu = x.mean(dim=-1, keepdim=True)  # Global inhibition field
+        x = F.relu(x - alpha[t] * mu)      # Survival of the fittest
+    y = gamma * x                          # Signal recovery
+    return y
+```
+
+</details>
+
+<details>
+<summary><b>PyTorch-style pseudocode (SSR Layer)</b></summary>
+
+```python
+def ssr_layer_forward(x: Tensor, views: int, filters: list, projections: list) -> Tensor:
+    """
+    Single SSR Layer: Multi-view Sparse Filtering + Intra-view Dense Fusion.
+    x:           [B, d_in]  concatenated input embeddings
+    views:       number of parallel views (b)
+    filters:     list of b sparse filter operators (SSR-S or SSR-D)
+    projections: list of b dense projection layers (V_i)
+    """
+    outputs = []
+    for i in range(views):
+        h_i = filters[i](x)                          # Sparse filtering
+        z_i = F.gelu(projections[i](h_i))             # Dense fusion
+        outputs.append(F.layer_norm(z_i, z_i.shape))   # Normalize
+    y = torch.cat(outputs, dim=-1)                     # Concatenate views
+    return y
+```
+
+</details>
+
+## Results
+
+### Industrial Dataset (Billion-scale, 300+ feature fields)
+
+| Category | Model | #Params | FLOPs | Click AUC | Click GAUC | Pay AUC | Pay GAUC |
+|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| Classic | DeepFM | 13M | 0.6G | 0.6563 | 0.6251 | 0.8053 | 0.6730 |
+| | DCNv2 | 15M | 0.9G | 0.6571 | 0.6262 | 0.8065 | 0.6742 |
+| Attention | AutoInt | 26.2M | 1.7G | 0.6594 | 0.6279 | 0.8078 | 0.6769 |
+| SOTA | Wukong | 93M | 2.9G | 0.6615 | 0.6298 | 0.8115 | 0.6805 |
+| | RankMixer | 101M | 3.2G | 0.6621 | 0.6305 | 0.8122 | 0.6815 |
+| **Ours** | **SSR-S** | **57M** | **1.4G** | **0.6644** | **0.6326** | **0.8162** | **0.6841** |
+| | **SSR-D** | **100M** | **3.3G** | **0.6667** | **0.6351** | **0.8194** | **0.6862** |
+
+SSR-S outperforms RankMixer using only **56% of parameters** and **44% of FLOPs**. SSR-D achieves the best results across all metrics with comparable compute budget.
+
+### Public Benchmarks (Avazu / Alibaba / Criteo)
+
+| Model | Avazu AUC | Alibaba AUC | Criteo AUC |
+|:---|:---:|:---:|:---:|
+| DeepFM | 0.7752 | 0.6594 | 0.7986 |
+| DCNv2 | 0.7729 | 0.6526 | 0.8064 |
+| AutoInt | 0.7722 | 0.6784 | 0.8053 |
+| RankMixer | 0.7772 | 0.6801 | 0.8092 |
+| **SSR-S** | **0.7827** | **0.6827** | **0.8098** |
+| **SSR-D** | **0.7835** | **0.6844** | **0.8096** |
+
+SSR achieves consistent improvements across all benchmarks. On Avazu, SSR-S cuts parameters and FLOPs by roughly half relative to RankMixer while improving AUC.
+
+### Scalability
+
+SSR exhibits superior scaling properties compared to dense baselines. While Dense MLP saturates early and RankMixer shows flattening growth, SSR maintains a steep upward trajectory from 5M to 900M parameters — the performance gap widens as models scale up.
+
+<p align="center">
+  <img src="assets/scaling.png" width="420" />
+</p>
+
+## Online A/B Testing
+
+Deployed against the production RankMixer baseline over a two-week period:
+
+| Model | Latency | CTR Lift | Orders Lift | GMV Lift |
+|:---|:---:|:---:|:---:|:---:|
+| **SSR-D** | 26ms (+1ms) | **+2.1%** | **+3.2%** | **+3.5%** |
+
+SSR-D delivers significant business metric improvements with negligible latency overhead (+1ms).
+
+## Citation
+
+If you found our work useful, please cite
+
+```bib
+@inproceedings{anonymous2025ssr,
+  title     = {Beyond Dense Connectivity: Explicit Sparsity for Scalable Recommendation},
+  author    = {Anonymous Author(s)},
+  booktitle = {Proceedings of Conference},
+  year      = {2025}
+}
+```
