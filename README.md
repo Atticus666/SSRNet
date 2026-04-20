@@ -3,7 +3,7 @@
   <b>
     <span>━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
     <br/>
-    SSR: Explicit Sparsity for Scalable Recommendation
+    SIGIR'26 SSR: Explicit Sparsity for Scalable Recommendation
     <br/>
     <span>━━━━━━━━━━━━━━━━━━━━━━━━━━━</span>
     <br/>
