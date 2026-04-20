@@ -148,10 +148,12 @@ SSR-D delivers significant business metric improvements with negligible latency 
 If you found our work useful, please cite
 
 ```bib
-@inproceedings{anonymous2025ssr,
-  title     = {Beyond Dense Connectivity: Explicit Sparsity for Scalable Recommendation},
-  author    = {Anonymous Author(s)},
-  booktitle = {Proceedings of Conference},
-  year      = {2025}
+@inproceedings{2026ssrnet,
+  title         = {Beyond Dense Connectivity: Explicit Sparsity for Scalable Recommendation},
+  author        = {Yantao Yu, Sen Qiao, etc},
+  booktitle     = {SIGIR},
+  year          = {2026},
+  archiveprefix = {arXiv},
+  eprint        = {2604.08011}
 }
 ```
