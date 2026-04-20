@@ -12,7 +12,7 @@
 </div>
 
 <p align="center">
-  <a href="../ssr_final.pdf">Paper</a> &nbsp;|&nbsp;
+  <a href="https://arxiv.org/pdf/2604.08011">Paper</a> &nbsp;|&nbsp;
   <a href="#overview">Overview</a> &nbsp;|&nbsp;
   <a href="#results">Results</a> &nbsp;|&nbsp;
   <a href="#online-ab-testing">Online A/B</a> &nbsp;|&nbsp;
